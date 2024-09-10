@@ -1,0 +1,3 @@
+Do là các file được việc có liên quan các hàm với nhau em xin phép copy các phần liên quan lại với nhau
+Phần bảo mật này giúp bảo vệ cơ sở dữ liệu khỏi các câu truy vấn không hợp lệ bằng cách kiểm tra câu truy vấn từ api qua.
+(có thể tham khảo qua bức ảnh từ thư mục ../mô hình sản phẩm/image.png)

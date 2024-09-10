@@ -1,0 +1,6 @@
+- Tạo một bảng giải thích logic của đoạn văn bản đó
+- Sắp xếp cấu trúc bảng sao cho dễ nhìn nhất
+- Đảm bảo tạo một bảng đẹp,
+- Thẳng hàng và cân đối cho mỗi hàng và cột
+- Tạo một mẫu để tôi có thể sao chép
+- Lưu ý rằng nó nên tự động tiếp tục đến giới hạn

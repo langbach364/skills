@@ -1,0 +1,2 @@
+Các prompt này do em tự viết cho công việc hoặc dự án cá nhân của em
+Các model có thể hoạt động tốt: clade 3.5 sonnet và gpt-4o, clade 3 sonnet, clade 3 opus

@@ -1,0 +1,2 @@
+Các tập lệnh script em xây viết từ trên dự án ở trường học. Em còn viết vài tập lệnh cho bản thân tuy nhiên em sẽ không thêm ở đây.
+Tập lệnh wait-for-it không phải là tập lệnh em viết mà lấy từ bên ngoài mục đích để điều phối các container(dịch vụ) đảm bảo chạy theo thứ tự.

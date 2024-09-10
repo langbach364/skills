@@ -1,0 +1,28 @@
+Đề:
+- Sản phẩm:
++ Lưu trữ thông tin sản phẩm (tên, mô tả, giá, số lượng tồn kho)
++ Phân loại sản phẩm theo danh mục
++ Cập nhật thông tin sản phẩm
+
+- Đặt đơn hàng:
++ Cho phép người dùng thêm sản phẩm vào giỏ hàng
++ Tính tổng giá trị đơn hàng
++ Áp dụng mã giảm giá (nếu có)
++ Xử lý thanh toán
++ Cập nhật số lượng tồn kho sau khi đặt hàng
+
+- Mã giảm giá:
++ Tạo và quản lý các mã giảm giá
++ Kiểm tra tính hợp lệ của mã giảm giá (điều kiện áp dụng)
++ Áp dụng giảm giá vào đơn hàng
+
+- Đánh giá sản phẩm:
++ Cho phép khách hàng đánh giá và bình luận về sản phẩm
++ Tính điểm trung bình của sản phẩm
++ Hiển thị đánh giá cho người dùng khác xem
+
+- Thống kê:
++ Thống kê doanh số bán hàng theo thời gian
++ Phân tích sản phẩm bán chạy
++ Theo dõi hiệu quả của các chiến dịch giảm giá
++ Báo cáo về hành vi mua hàng của khách hàng

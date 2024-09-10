@@ -1,0 +1,116 @@
+services:
+  db:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile/mysql.dockerfile
+    container_name: my_mysql_container
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.3
+
+  db_triggers:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile/mysql-triggers.dockerfile
+    container_name: my_mysql_triggers_container
+    depends_on:
+      - db
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.7
+
+  be:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile/be.dockerfile
+    container_name: my_be_container
+    ports:
+      - "8080:8080"
+      - "5050:5050"
+    volumes:
+      - ../frontend/javascript/image-products:/Documents/backend/System/image-products
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=my_network"
+      - "traefik.http.routers.be.entrypoints=websecure"
+      - "traefik.http.routers.be.rule=Host(`api.langbach.io.vn`) && (PathPrefix(`/login`) || PathPrefix(`/register`) || PathPrefix(`/send_code`) || PathPrefix(`/verify_code`) || PathPrefix(`/change_password`) || PathPrefix(`/get_data`) || PathPrefix(`/delete_data`) || PathPrefix(`/insert_data`) || PathPrefix(`/upload_image`) || PathPrefix(`/update_data`))"
+      - "traefik.http.routers.be.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.be.loadbalancer.server.port=8080"
+    depends_on:
+      - db_triggers
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.4
+  fe:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile/fe.dockerfile
+    container_name: my_fe_container
+    ports:
+      - "5500:5500"
+    volumes:
+      - ../frontend/javascript/image-products:/Documents/frontend/javascript/image-products
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=my_network"
+      - "traefik.http.routers.fe.entrypoints=websecure"
+      - "traefik.http.routers.fe.rule=Host(`test.langbach.io.vn`)"
+      - "traefik.http.routers.fe.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.fe.loadbalancer.server.port=5500"
+    depends_on:
+      - be
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.5
+
+  ad:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile/ad.dockerfile
+    container_name: my_ad_container
+    ports:
+      - "5505:5505"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=my_network"
+      - "traefik.http.routers.ad.entrypoints=websecure"
+      - "traefik.http.routers.ad.rule=Host(`admin.langbach.io.vn`)"
+      - "traefik.http.routers.ad.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.ad.loadbalancer.server.port=5505"
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.6
+
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    ports:
+      - "8000:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dockerfile/traefik/traefik.toml:/traefik.toml
+      - ./dockerfile/traefik/traefik_dynamic.toml:/traefik_dynamic.toml
+      - ./dockerfile/traefik/letsencrypt:/letsencrypt
+      - ./dockerfile/traefik/acme.json:/acme.json
+    depends_on:
+      - fe
+    networks:
+      my_network:
+        ipv4_address: 172.21.0.2
+
+volumes:
+  mysql_data:
+    name: my_mysql_data
+
+
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
